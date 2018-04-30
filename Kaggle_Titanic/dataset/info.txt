@@ -1,0 +1,137 @@
+import pandas as pd
+# ---------------------------------------------------------------------------------------------------
+# Dataframe info
+# ---------------------------------------------------------------------------------------------------
+df = pd.read_csv('train.csv')
+df.info()
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+PassengerId    891 non-null int64
+Survived       891 non-null int64
+Pclass         891 non-null int64
+Name           891 non-null object
+Sex            891 non-null object
+Age            714 non-null float64
+SibSp          891 non-null int64
+Parch          891 non-null int64
+Ticket         891 non-null object
+Fare           891 non-null float64
+Cabin          204 non-null object
+Embarked       889 non-null object
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.6+ KB
+
+# ---------------------------------------------------------------------------------------------------
+# Sanity
+# ---------------------------------------------------------------------------------------------------
+
+# RangeIndex: 891 entries, 0 to 890
+There are 891 entries. 
+   - If the column has lesser count than 191 then it means some entries are null (NaN). 
+   - If the column has lesser count than 191 then it means 
+
+>>> df.isnull().any()
+...
+Age             True
+Cabin           True
+Embarked        True
+
+>>> df.isnull().sum()
+...
+Age            177
+Cabin          687
+Embarked         2
+
+
+# Remove
+Survived       891 non-null int64
+Pclass         891 non-null int64
+Name           891 non-null object
+Sex            891 non-null object
+Age            714 non-null float64
+SibSp          891 non-null int64
+Parch          891 non-null int64
+Fare           891 non-null float64
+Embarked       889 non-null object
+
+
+##
+# ___________________________________________________________________________________________________
+#
+# Columns                  
+# ___________________________________________________________________________________________________
+#
+##
+
+# ---------------------------------------------------------------------------------------------------
+# PassengerId
+# ---------------------------------------------------------------------------------------------------
+The value of the ID should have no significance.
+Remove the column to prevent irrelavent interpretation?
+
+# ---------------------------------------------------------------------------------------------------
+# Survived
+# ---------------------------------------------------------------------------------------------------
+This is the label 'y'
+
+# ---------------------------------------------------------------------------------------------------
+# Pclass
+# ---------------------------------------------------------------------------------------------------
+Pclass: A proxy for socio-economic status (SES)
+   1st = Upper
+   2nd = Middle
+   3rd = Lower
+
+# ---------------------------------------------------------------------------------------------------
+# sibsp: 
+# ---------------------------------------------------------------------------------------------------
+The dataset defines family relations in this way...
+   Sibling = brother, sister, stepbrother, stepsister
+   Spouse = husband, wife (mistresses and fiancés were ignored)
+
+>>> df.SibSp.unique()
+array([1, 0, 3, 4, 2, 5, 8], dtype=int64)
+
+---------------------------------------------------------------------------------------------------
+parch: The dataset defines family relations in this way...
+   Parent = mother, father
+   Child = daughter, son, stepdaughter, stepson
+   Some children travelled only with a nanny, therefore parch=0 for them.
+
+>>> df.Parch.unique()
+array([0, 1, 2, 5, 3, 4, 6], dtype=int64)
+
+# ---------------------------------------------------------------------------------------------------
+# Base Model 
+# ---------------------------------------------------------------------------------------------------
+
+[RandomForest][BaseModel][Train] - Precision Recall Scores
+       Accuracy  Precision   Recall  F1 Score   ROC AUC
+Score  0.944      0.945652  0.90625   0.925532  0.936891
+Score  0.942667   0.945455  0.902778  0.923623  0.935155
+
+[RandomForest][BaseModel][Test] Precision Recall Scores
+       Accuracy  Precision    Recall  F1 Score   ROC AUC
+Score  0.77305    0.72      0.666667  0.692308  0.752874
+Score  0.794326   0.735849  0.722222  0.728972  0.780651
+
+# ---------------------------------------------------------------------------------------------------
+# Cross Validation Folds
+# ---------------------------------------------------------------------------------------------------
+Cross Validation Accuracy = 0.8135
+Cross Validation Accuracy = 0.8148
+
+# ---------------------------------------------------------------------------------------------------
+# Updated Model (random_state=du.SEED, n_estimators=100)
+# ---------------------------------------------------------------------------------------------------
+[RandomForest][UpdatedModel][Train] - Precision Recall Scores
+       Accuracy  Precision    Recall  F1 Score   ROC AUC
+Score  0.944      0.945652  0.90625   0.925532  0.936891
+Score  0.950667   0.949821  0.920139  0.934744  0.944918
+
+[RandomForest][UpdatedModel][Test] - Precision Recall Scores
+       Accuracy  Precision    Recall  F1 Score   ROC AUC
+Score  0.77305   0.72      0.666667  0.692308   0.752874
+Score  0.787234  0.730769  0.703704  0.716981   0.771392

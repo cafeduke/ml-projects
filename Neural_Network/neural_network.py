@@ -194,15 +194,15 @@ class NeuralNetwork:
             A_output = NeuralNetwork.relu(Z)
         elif activation_type == ActivationFunction.sigmoid:
             A_output = NeuralNetwork.sigmoid(Z)
-        return A_output;
+        return A_output
     
     def do_derivation (self, activation_type, Z):
-        dZ = None;
+        dZ = None
         if activation_type == ActivationFunction.relu:
             dZ = NeuralNetwork.relu_derivative(Z)
         elif activation_type == ActivationFunction.sigmoid:
             dZ = NeuralNetwork.sigmoid_derivative(Z)
-        return dZ;
+        return dZ
     
     @staticmethod     
     def get_accuracy (Y, Ycap):
